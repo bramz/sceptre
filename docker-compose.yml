@@ -7,3 +7,13 @@ services:
     tty: true
     volumes:
       - ./db/:/root/db/
+
+  alembic-migrations:
+    image: brainly/alembic-migrate
+    command: -url=jdbc:sqlite://data/sceptre.db migrate
+    volumes:
+      - ./migrations:/alembic/versions
+    links:
+      - sqlite3
+    depends_on:
+      - sqlite3
