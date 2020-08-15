@@ -44,31 +44,69 @@ class BotClient(discord.Client):
             message.content
         )
 
-        if message.author.id != self.user.id:
-            prefix = self.config.get('prefix', ['!'])
-            commands = command.handler.commands
+        async with aiosqlite.connect('data/sceptre.db') as connection:
+            context = {
+                'client': self,
+                'config': self.config,
+                'db': connection,
+                'start_time': start_time
+            }
 
-            for p in prefix:
-                if not message.content.startswith(p):
-                    continue
+            await store_messages(
+                context,
+                str(message.guild.id),
+                message.guild.name,
+                str(message.author.id),
+                message.author.name,
+                message.content
+            )
 
-                    for cm in commands:
-                        if not message.content[1:].startswith(cm['trigger']):
-                            continue
+            if message.author.id != self.user.id:
+                prefix = self.config.get('prefix', ['!'])
+                commands = command.handler.commands
 
-                        c = command.handler.command_handler(cm['module'],
-                                                         cm['handler'])
+                for p in prefix:
+                    if not message.content.startswith(p):
+                        continue
 
-                        perms = await command.handler.get_permissions(
-                            context,
-                            message.author.id
-                        )
+                        for cm in commands:
+                            if not message.content[1:].startswith(cm['trigger']):
+                                continue
 
-                        if perms < cm['permissions']:
-                            return await message.channel.send('Unauthorized')
+                            c = command.handler.command_handler(cm['module'],
+                                                            cm['handler'])
 
-                        await c.handle(cm, context, message)
+                            perms = await command.handler.get_permissions(
+                                context,
+                                message.author.id
+                            )
 
+                            if perms < cm['permissions']:
+                                return await message.channel.send('Unauthorized')
+
+                            await c.handle(cm, context, message)
+
+
+async def store_messages(context, sid, server, uid, user, content):
+    statement = '''
+    insert into messages (
+        guildid,
+        guildname,
+        userid,
+        username,
+        content
+    )
+    values ($1, $2, $3, $4, $5)
+    '''
+
+    return await context['db'].execute(
+        statement,
+        sid,
+        server,
+        uid,
+        user,
+        content
+    )
 
 async def run_coroutines():
     config = fetch_config()
