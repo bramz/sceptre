@@ -12,7 +12,7 @@ services:
     image: brainly/alembic-migrate
     command: -url=jdbc:sqlite://data/sceptre.db migrate
     volumes:
-      - ./migrations:/alembic/versions
+      - ./migrations:/versions
     links:
       - sqlite3
     depends_on:
