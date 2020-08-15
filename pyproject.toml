@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "sceptre"
+version = "0.1.0"
+description = "A python discord bot"
+authors = ["Brock Ramsey <brockramz@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+"discord.py" = "^1.4.1"
+aiosqlite = "^0.15.0"
+asyncio = "^3.4.3"
+aiohttp = "^3.6.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
