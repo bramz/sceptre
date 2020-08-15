@@ -31,6 +31,7 @@ $ docker-compose up sqlite3
 $ BOT_TOKEN=<your_bot_token>
 $ poetry run python sceptre
 ```
+
 **NOTE**: Above steps assume that you are inside `sceptre`'s root directory (one that contains `Makefile` and `Dockerfile`)
 
 If everything is alright, your bot should be running. You can invoke the test command `!test` to test it.
@@ -42,7 +43,7 @@ Access must be granted to utilized higher level commands. To do so you will need
 
 Once that is out of the way, you need to connect to SQLite container, and add your Discord ID to `permissions` table. These steps can be summarized (and visualized as)
 ```shell
-$ docker exec -it <your_containers_name> psql -U postgres
+$ docker exec -it <your_containers_name> sqlite3 sceptre.db
 postgres=# \c sceptre
 postgres=# INSERT INTO permissions (username, level) VALUES (<your_discord_id>, 2);
 ```
