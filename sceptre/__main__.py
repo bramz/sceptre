@@ -118,7 +118,7 @@ async def run_coroutines():
         )
         return
 
-    client = BotClient(config=config, pool=pool)
+    client = BotClient(config=config)
 
     tasks = [
         client.start(bot_token),
