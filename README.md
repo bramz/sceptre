@@ -1,5 +1,5 @@
 # sceptre
-A Python discord bot reworked and updated. Derived from [Apophis](https://github.com/packetfire/apophis)
+A Python discord bot reworked and updated. Derived from [Apophis](https://github.com/packetfire/apophis), in hopes to never have to write another discord bot!
 
 ## Dependencies
 * Docker along with `docker-compose`
