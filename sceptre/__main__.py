@@ -10,7 +10,7 @@ import command.handler
 from core.readers import fetch_config
 
 
-log_level = os.environ.get('LOGLEVEL', 'INFO')
+log_level = os.environ.get('LOGLEVEL', 'DEBUG')
 logger = logging.getLogger(__name__)
 logging.basicConfig(
     format='[%(asctime)s %(filename)s'
@@ -69,22 +69,22 @@ class BotClient(discord.Client):
                     if not message.content.startswith(p):
                         continue
 
-                        for cm in commands:
-                            if not message.content[1:].startswith(cm['trigger']):
-                                continue
+                    for cm in commands:
+                        if not message.content[1:].startswith(cm['trigger']):
+                            continue
 
-                            c = command.handler.command_handler(cm['module'],
-                                                            cm['handler'])
+                        c = command.handler.command_handler(cm['module'],
+                                                        cm['handler'])
 
-                            perms = await command.handler.get_permissions(
-                                context,
-                                message.author.id
-                            )
+                        perms = await command.handler.get_permissions(
+                            context,
+                            message.author.id
+                        )
 
-                            if perms < cm['permissions']:
-                                return await message.channel.send('Unauthorized')
-
-                            await c.handle(cm, context, message)
+                        if perms < cm['permissions']:
+                            return await message.channel.send('Unauthorized')
+                            
+                        await c.handle(cm, context, message)
 
 
 async def store_messages(context, sid, server, uid, user, content):
@@ -96,18 +96,21 @@ async def store_messages(context, sid, server, uid, user, content):
         username,
         content
     )
-    values ($1, $2, $3, $4, $5)
+    values (?, ?, ?, ?, ?)
     '''
 
-    await context['db'].execute(statement)
-
-    return await context['db'].commit(
-        sid,
-        server,
-        uid,
-        user,
-        content
+    await context['db'].execute(
+        statement,
+        (
+            sid,
+            server,
+            uid,
+            user,
+            content
+        )
     )
+
+    return await context['db'].commit()
 
 async def run_coroutines():
     config = fetch_config()
