@@ -99,8 +99,9 @@ async def store_messages(context, sid, server, uid, user, content):
     values ($1, $2, $3, $4, $5)
     '''
 
-    return await context['db'].execute(
-        statement,
+    await context['db'].execute(statement)
+
+    return await context['db'].commit(
         sid,
         server,
         uid,
