@@ -14,14 +14,17 @@ def command_handler(module, handler) -> Handler:
 
 async def get_permissions(context, user) -> int:
     statement = '''
-    select level from permissions where username = $1;
+    select level from permissions where username = ?
     '''
-    row = await context['db'].fetchrow(statement, str(user))
+
+    cursor = await context['db'].cursor()
+    await cursor.execute(statement, (str(user), ))
+    row = await cursor.fetchone()
 
     if row is None:
         return 0
     else:
-        return row['level']
+        return row[0]
 
 
 commands = [
@@ -29,6 +32,6 @@ commands = [
         'trigger': 'test',
         'module': 'command.test',
         'handler': 'TestCommand',
-        'permissions': 0
+        'permissions': 2
     }
 ]
