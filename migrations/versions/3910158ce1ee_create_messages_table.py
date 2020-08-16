@@ -25,7 +25,7 @@ def upgrade():
         sa.Column('guildid', sa.Text),
         sa.Column('guildname', sa.Text),
         sa.Column('userid', sa.Text),
-        sa.Column('usernmae', sa.Text),
+        sa.Column('username', sa.Text),
         sa.Column('content', sa.Text),
     )
 
