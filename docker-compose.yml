@@ -10,7 +10,8 @@ services:
 
   alembic-migrations:
     image: brainly/alembic-migrate
-    command: -url=jdbc:sqlite://data/sceptre.db migrate
+    command: -url=jdbc:sqlite://db/sceptre.db "upgrade head"
+
     volumes:
       - ./migrations:/versions
     links:
