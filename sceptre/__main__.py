@@ -115,8 +115,7 @@ async def store_messages(context, sid, server, uid, user, content):
 async def run_coroutines():
     config = fetch_config()
 
-##    bot_token = os.environ.get('BOT_TOKEN', config.get('bot_token'))
-    bot_token = 'Njc0NDc4MTEwNzMyODQ1MDg4.XjpKsA.sb7hhASWH8tvj3T0YwXrknHVwmQ'
+    bot_token = os.environ.get('BOT_TOKEN', config.get('bot_token'))
     
     if bot_token is None:
         logger.error(
