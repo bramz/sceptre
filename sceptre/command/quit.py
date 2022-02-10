@@ -1,4 +1,4 @@
-from cmds.command import Command
+from command.handler import Command
 
 
 class QuitCommand(Command):
