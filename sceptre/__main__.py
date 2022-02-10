@@ -44,7 +44,7 @@ class BotClient(discord.Client):
             message.content
         )
 
-        async with aiosqlite.connect('data/sceptre.db') as connection:
+        async with aiosqlite.connect('db/sceptre.db') as connection:
             context = {
                 'client': self,
                 'config': self.config,
@@ -115,7 +115,9 @@ async def store_messages(context, sid, server, uid, user, content):
 async def run_coroutines():
     config = fetch_config()
 
-    bot_token = os.environ.get('BOT_TOKEN', config.get('bot_token'))
+##    bot_token = os.environ.get('BOT_TOKEN', config.get('bot_token'))
+    bot_token = 'Njc0NDc4MTEwNzMyODQ1MDg4.XjpKsA.sb7hhASWH8tvj3T0YwXrknHVwmQ'
+    
     if bot_token is None:
         logger.error(
             'You must specify a bot token in order to start the bot.'
