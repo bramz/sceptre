@@ -29,9 +29,9 @@ async def get_permissions(context, user) -> int:
 
 commands = [
     {
-        'trigger': 'test',
-        'module': 'command.test',
-        'handler': 'TestCommand',
+        'trigger': 'quit',
+        'module': 'command.quit',
+        'handler': 'QuitCommand',
         'permissions': 2
     },
     {
