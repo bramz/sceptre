@@ -33,5 +33,11 @@ commands = [
         'module': 'command.test',
         'handler': 'TestCommand',
         'permissions': 2
+    },
+    {
+        'trigger': 'timeboard',
+        'module': 'command.timeboard',
+        'handler': 'TimeboardCommand',
+        'permissions': 2
     }
 ]
